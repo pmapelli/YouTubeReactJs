@@ -3,6 +3,7 @@ import SearchBar from "./SearchBar";
 import youtube from "../apis/youtube";
 import VideoList from "../components/VideoList";
 import VideoDetail from "./VideoDetail";
+
 class App extends React.Component {
   state = { videos: [], selectedVideo: null };
 
@@ -11,6 +12,16 @@ class App extends React.Component {
   // }
 
   onTermSubmit = async term => {
+    
+    if(term.trim() === ""){
+      this.setState({
+        videos: [],
+        selectedVideo: null
+      });
+
+      return;
+    }
+    
     const response = await youtube.get("/search", {
       params: {
         part: "snippet",
